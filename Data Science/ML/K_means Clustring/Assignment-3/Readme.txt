@@ -1,4 +1,3 @@
-UTA ID: 1002049853
 Programming language: PYTHON
 Libraries that are expected to be pre-installed.
 		 panda
@@ -14,4 +13,4 @@ How to run code:
 	(or)
 	o Run python script in Python IDLE.
 
-NOTE: warnings may rise due to tensoflow ignore them
+This is project on how to implement KMeans clustring using tensorflow with iris data
