@@ -1,0 +1,220 @@
+SQL> set echo on
+SQL> set timing on
+SQL> column column_name format a15
+SQL> set linesize 200
+SQL> --------------------------------------------------------------------------------
+SQL> --Query: to find the NCONST of an actor,actress giving the name
+SQL> --------------------------------------------------------------------------------
+SQL> SELECT NCONST,primaryname
+  2  FROM imdb00.name_basics 
+  3  where (Lower(primaryname) LIKE '%james cagney%' OR Lower(primaryname) LIKE '%halle berry%');
+
+NCONST
+----------
+PRIMARYNAME                                                                                                                                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm0000010  
+James Cagney                                                                                                                                                                                            
+
+nm0000932  
+Halle Berry                                                                                                                                                                                             
+
+nm0128569  
+James Cagney Jr.                                                                                                                                                                                        
+
+
+NCONST
+----------
+PRIMARYNAME                                                                                                                                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nm12860219 
+James Cagney Thomas                                                                                                                                                                                     
+
+nm13786767 
+Halle Berry                                                                                                                                                                                             
+
+nm1615521  
+James Cagney IV                                                                                                                                                                                         
+
+
+6 rows selected. 
+
+Elapsed: 00:00:06.432
+SQL> 
+SQL> --------------------------------------------------------------------------------
+SQL> -- query: list number of movies per year using actor nameid of 'james cagney' over their career
+SQL> --------------------------------------------------------------------------------
+SQL> 
+SQL> SELECT NB.primaryname||','||TB.startyear||','||COUNT(*)
+  2  FROM imdb00.name_basics NB, imdb00.title_principals TP, imdb00.title_basics TB
+  3  WHERE NB.nconst = TP.nconst AND 
+  4          TP.tconst = TB.tconst AND 
+  5          NB.nconst = 'nm0000010' AND
+  6          LOWER(TB.titleType) = 'movie' AND
+  7          LOWER(TP.category) IN ('actor') AND TB.startyear NOT LIKE '\N'
+  8  GROUP BY NB.nconst, NB.primaryname, TB.startyear
+  9  ORDER BY TB.startyear;
+
+NB.PRIMARYNAME||','||TB.STARTYEAR||','||COUNT(*)                                                                                                                                                        
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+James Cagney,1930,2
+James Cagney,1931,5
+James Cagney,1932,2
+James Cagney,1933,5
+James Cagney,1934,4
+James Cagney,1935,5
+James Cagney,1936,2
+James Cagney,1937,1
+James Cagney,1938,2
+James Cagney,1939,3
+James Cagney,1940,3
+
+NB.PRIMARYNAME||','||TB.STARTYEAR||','||COUNT(*)                                                                                                                                                        
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+James Cagney,1941,2
+James Cagney,1942,2
+James Cagney,1943,1
+James Cagney,1945,1
+James Cagney,1946,1
+James Cagney,1948,1
+James Cagney,1949,1
+James Cagney,1950,2
+James Cagney,1951,1
+James Cagney,1952,1
+James Cagney,1953,1
+
+NB.PRIMARYNAME||','||TB.STARTYEAR||','||COUNT(*)                                                                                                                                                        
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+James Cagney,1955,3
+James Cagney,1956,2
+James Cagney,1957,1
+James Cagney,1959,2
+James Cagney,1960,1
+James Cagney,1961,1
+James Cagney,1981,1
+
+29 rows selected. 
+
+Elapsed: 00:00:01.741
+SQL> --------------------------------------------------------------------------------
+SQL> ---- query: list number of movies per year using actress nameid of 'halle berry' over their career
+SQL> --------------------------------------------------------------------------------
+SQL> 
+SQL> SELECT NB.primaryname||','||TB.startyear||','||COUNT(*)
+  2  FROM imdb00.name_basics NB, imdb00.title_principals TP, imdb00.title_basics TB
+  3  WHERE NB.nconst = TP.nconst AND 
+  4          TP.tconst = TB.tconst AND 
+  5          NB.nconst = 'nm0000932' AND
+  6          LOWER(TB.titleType) = 'movie' AND
+  7          LOWER(TP.category) IN ('actress') AND TB.startyear NOT LIKE '\N'
+  8  GROUP BY NB.nconst, NB.primaryname, TB.startyear
+  9  ORDER BY TB.startyear;
+
+NB.PRIMARYNAME||','||TB.STARTYEAR||','||COUNT(*)                                                                                                                                                        
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Halle Berry,1992,1
+Halle Berry,1993,3
+Halle Berry,1994,1
+Halle Berry,1996,3
+Halle Berry,1997,1
+Halle Berry,1998,2
+Halle Berry,2001,2
+Halle Berry,2002,1
+Halle Berry,2003,2
+Halle Berry,2004,1
+Halle Berry,2005,1
+
+NB.PRIMARYNAME||','||TB.STARTYEAR||','||COUNT(*)                                                                                                                                                        
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Halle Berry,2006,1
+Halle Berry,2007,2
+Halle Berry,2010,1
+Halle Berry,2012,2
+Halle Berry,2013,1
+Halle Berry,2016,1
+Halle Berry,2017,2
+Halle Berry,2019,1
+Halle Berry,2020,1
+Halle Berry,2022,2
+
+21 rows selected. 
+
+Elapsed: 00:00:01.621
+SQL> --------------------------------------------------------------------------------
+SQL> -- query: list number of movies per year using actor primaryname of 'chris hemsworth' over their career
+SQL> --------------------------------------------------------------------------------
+SQL> 
+SQL> SELECT NB.primaryname||','||TB.startyear||','||COUNT(*)
+  2  FROM imdb00.name_basics NB, imdb00.title_principals TP, imdb00.title_basics TB
+  3  WHERE NB.nconst = TP.nconst AND 
+  4          TP.tconst = TB.tconst AND 
+  5          Lower(NB.primaryname) LIKE 'chris hemsworth' AND
+  6          LOWER(TB.titleType) = 'movie' AND
+  7          LOWER(TP.category) IN ('actor') AND TB.startyear NOT LIKE '\N'
+  8  GROUP BY NB.nconst, NB.primaryname, TB.startyear
+  9  ORDER BY TB.startyear;
+
+NB.PRIMARYNAME||','||TB.STARTYEAR||','||COUNT(*)                                                                                                                                                        
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chris Hemsworth,2010,1
+Chris Hemsworth,2011,2
+Chris Hemsworth,2012,2
+Chris Hemsworth,2013,2
+Chris Hemsworth,2015,3
+Chris Hemsworth,2016,1
+Chris Hemsworth,2017,1
+Chris Hemsworth,2018,2
+Chris Hemsworth,2019,2
+Chris Hemsworth,2020,1
+Chris Hemsworth,2022,3
+
+NB.PRIMARYNAME||','||TB.STARTYEAR||','||COUNT(*)                                                                                                                                                        
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chris Hemsworth,2024,1
+
+12 rows selected. 
+
+Elapsed: 00:00:09.420
+SQL> 
+SQL> ---------------------------------------------------------------------------------
+SQL> --query: list number of movies per year using actress primaryname of 'natalie portman' over their career
+SQL> -------------------------------------------------------------------------------
+SQL> 
+SQL> SELECT NB.primaryname||','||TB.startyear||','||COUNT(*)
+  2  FROM sharmac.name_basics NB, sharmac.title_principals TP, sharmac.title_basics TB
+  3  WHERE NB.nconst = TP.nconst AND 
+  4          TP.tconst = TB.tconst AND 
+  5          Lower(NB.primaryname) LIKE 'natalie portman' AND
+  6          LOWER(TB.titleType) = 'movie' AND
+  7          LOWER(TP.category) IN ('actress') AND TB.startyear NOT LIKE '\N'
+  8  GROUP BY NB.nconst, NB.primaryname, TB.startyear
+  9  ORDER BY TB.startyear;
+
+NB.PRIMARYNAME||','||TB.STARTYEAR||','||COUNT(*)                                                                                                                                                        
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Natalie Portman,1994,1
+Natalie Portman,1999,2
+Natalie Portman,2000,1
+Natalie Portman,2002,1
+Natalie Portman,2004,2
+Natalie Portman,2005,3
+Natalie Portman,2006,1
+Natalie Portman,2007,2
+Natalie Portman,2008,2
+Natalie Portman,2009,2
+Natalie Portman,2010,2
+
+NB.PRIMARYNAME||','||TB.STARTYEAR||','||COUNT(*)                                                                                                                                                        
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Natalie Portman,2011,3
+Natalie Portman,2013,1
+Natalie Portman,2015,3
+Natalie Portman,2016,2
+Natalie Portman,2017,2
+Natalie Portman,2018,2
+
+17 rows selected. 
+
+Elapsed: 00:00:05.517
+SQL> 
+SQL> Set echo off

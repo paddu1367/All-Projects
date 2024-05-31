@@ -1,0 +1,105 @@
+SQL> set timing on
+SQL> column column_name format a15
+SQL> set linesize 200
+SQL> --------------------------------------------------------------------------------
+SQL> --Query:to split acting years in to span between 1930-1953
+SQL> --------------------------------------------------------------------------------
+SQL> SELECT primaryname||','||SUM(Counter) FROM (
+  2  SELECT NB.primaryname,TB.startyear,COUNT(*) AS Counter
+  3  FROM imdb00.name_basics NB, imdb00.title_principals TP, imdb00.title_basics TB
+  4  WHERE NB.nconst = TP.nconst AND 
+  5          TP.tconst = TB.tconst AND 
+  6          (NB.nconst = 'nm0000010' OR NB.nconst = 'nm0000932' OR 
+  7          Lower(primaryname) LIKE '%chris hemsworth%' OR
+  8          Lower(NB.primaryname) LIKE '%natalie portman%' )AND
+  9          LOWER(TB.titleType) = 'movie' AND
+ 10          LOWER(TP.category) IN ('actor','actress') AND TB.startyear NOT LIKE '\N'
+ 11  GROUP BY NB.nconst, NB.primaryname, TB.startyear
+ 12  HAVING TB.startyear > '1929' AND
+ 13          TB.startyear < '1954'
+ 14  ORDER BY TB.startyear)
+ 15  GROUP BY primaryname;
+
+PRIMARYNAME||','||SUM(COUNTER)                                                                                                                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+James Cagney,48
+
+Elapsed: 00:00:09.117
+SQL> --------------------------------------------------------------------------------
+SQL> --Query:to split acting years in to span between 1954-1977
+SQL> --------------------------------------------------------------------------------
+SQL> SELECT primaryname||','||SUM(Counter) FROM (
+  2  SELECT NB.primaryname,TB.startyear,COUNT(*) AS Counter
+  3  FROM imdb00.name_basics NB, imdb00.title_principals TP, imdb00.title_basics TB
+  4  WHERE NB.nconst = TP.nconst AND 
+  5          TP.tconst = TB.tconst AND 
+  6          (NB.nconst = 'nm0000010' OR NB.nconst = 'nm0000932' OR 
+  7          Lower(primaryname) LIKE '%chris hemsworth%' OR
+  8          Lower(NB.primaryname) LIKE '%natalie portman%' )AND
+  9          LOWER(TB.titleType) = 'movie' AND
+ 10          LOWER(TP.category) IN ('actor','actress') AND TB.startyear NOT LIKE '\N'
+ 11  GROUP BY NB.nconst, NB.primaryname, TB.startyear
+ 12  HAVING TB.startyear > '1953' AND
+ 13          TB.startyear < '1978'
+ 14  ORDER BY TB.startyear)
+ 15  GROUP BY primaryname;
+
+PRIMARYNAME||','||SUM(COUNTER)                                                                                                                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+James Cagney,10
+
+Elapsed: 00:00:09.906
+SQL> --------------------------------------------------------------------------------
+SQL> --Query:to split acting years in to span between 1978-2001
+SQL> --------------------------------------------------------------------------------
+SQL> SELECT primaryname||','||SUM(Counter) FROM (
+  2  SELECT NB.primaryname,TB.startyear,COUNT(*) AS Counter
+  3  FROM imdb00.name_basics NB, imdb00.title_principals TP, imdb00.title_basics TB
+  4  WHERE NB.nconst = TP.nconst AND 
+  5          TP.tconst = TB.tconst AND 
+  6          (NB.nconst = 'nm0000010' OR NB.nconst = 'nm0000932' OR 
+  7          Lower(primaryname) LIKE '%chris hemsworth%' OR
+  8          Lower(NB.primaryname) LIKE '%natalie portman%' )AND
+  9          LOWER(TB.titleType) = 'movie' AND
+ 10          LOWER(TP.category) IN ('actor','actress') AND TB.startyear NOT LIKE '\N'
+ 11  GROUP BY NB.nconst, NB.primaryname, TB.startyear
+ 12  HAVING TB.startyear > '1977' AND
+ 13          TB.startyear < '2002'
+ 14  ORDER BY TB.startyear)
+ 15  GROUP BY primaryname;
+
+PRIMARYNAME||','||SUM(COUNTER)                                                                                                                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Halle Berry,13
+Natalie Portman,4
+James Cagney,1
+
+Elapsed: 00:00:10.719
+SQL> --------------------------------------------------------------------------------
+SQL> --Query:to split acting years in to span between 2002-2024
+SQL> --------------------------------------------------------------------------------
+SQL> SELECT primaryname||','||SUM(Counter) FROM (
+  2  SELECT NB.primaryname,TB.startyear,COUNT(*) AS Counter
+  3  FROM imdb00.name_basics NB, imdb00.title_principals TP, imdb00.title_basics TB
+  4  WHERE NB.nconst = TP.nconst AND 
+  5          TP.tconst = TB.tconst AND 
+  6          (NB.nconst = 'nm0000010' OR NB.nconst = 'nm0000932' OR 
+  7          Lower(primaryname) LIKE '%chris hemsworth%' OR
+  8          Lower(NB.primaryname) LIKE '%natalie portman%' )AND
+  9          LOWER(TB.titleType) = 'movie' AND
+ 10          LOWER(TP.category) IN ('actor','actress') AND TB.startyear NOT LIKE '\N'
+ 11  GROUP BY NB.nconst, NB.primaryname, TB.startyear
+ 12  HAVING TB.startyear > '2002' AND
+ 13          TB.startyear < '2024'
+ 14  ORDER BY TB.startyear)
+ 15  GROUP BY primaryname;
+
+PRIMARYNAME||','||SUM(COUNTER)                                                                                                                                                                          
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Halle Berry,18
+Natalie Portman,30
+Chris Hemsworth,20
+
+Elapsed: 00:00:16.753
+SQL> 
+SQL> set echo OFF
